@@ -8,5 +8,5 @@
   <url>http://rock-robotics.org/</url>
 
   <depend package="base/cmake" />
-  <depend package="slam/envire_core" />
+  <depend package="envire/envire_core" />
 </package>
