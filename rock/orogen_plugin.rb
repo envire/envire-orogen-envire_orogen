@@ -1,6 +1,12 @@
 
 class OroGen::Gen::RTT_CPP::Typekit
 
+    # Generates a wrapper typename for the given typename.
+    #
+    # It will exchance special characters with an '_' and add '_w' to
+    # the typename.
+    #
+    # @param [string] typename
     def wrapper_type_name_for type
         type = type.to_str
         type = Typelib::Type.normalize_typename(type)
@@ -11,6 +17,11 @@ class OroGen::Gen::RTT_CPP::Typekit
         "/" + path.join("/") + "_w"
     end
 
+    # Adds boost serialization related includes to a given hash of options.
+    #
+    # It will extend options[:includes], which can be an array or a string.
+    #
+    # @param [Hash] options
     def extend_includes_by_boost_serialization_includes options
         if options[:includes].respond_to?(:to_str)
             options[:includes] = [options[:includes]]
@@ -21,6 +32,33 @@ class OroGen::Gen::RTT_CPP::Typekit
         options
     end
 
+    # Generates an opaque conversion for the given type.
+    #
+    # It registers a wrapper type based on the selected serialization method
+    # and generates the conversion between the opaque type and its wrapper type.
+    #
+    # The following options are available:
+    # +:include+ and +:includes+ are used to include the headers of the opaque type.
+    # +:type+ selects the serialization type, default is +:boost_serialization+
+    #
+    # Serialization types:
+    # +:boost_serialization+ the opaque type must support boost serialization. It is used to
+    #                           store the internal data of the opaque in binary form.
+    # +:envire_serialization+ the opaque type must inherit from envire::core::ItemBase and the
+    #                           :embedded_type option must be set. The :embedded_type can be a known
+    #                           typelib type, an opaque type or a generated opaque type on its own.
+    #
+    # Examples:
+    #    opaque_autogen '/gridmaps/Grid2D',
+    #                   :includes => "gridmaps/Grid2D.hpp",
+    #                   :type => :boost_serialization
+    #
+    #    opaque_autogen '/envire/pcl/PointCloud',
+    #                   :includes => "envire_pcl/PointCloud.hpp",
+    #                   :type => :envire_serialization,
+    #                   :embedded_type => "/pcl/PCLPointCloud2"
+    #
+    # @param [string] opaque typename
     def opaque_autogen type, options = Hash.new
         options = Kernel.validate_options options,
             :include => [],
