@@ -94,13 +94,13 @@ class OroGen::Gen::RTT_CPP::Typekit
             end
 
             # create c++ convertion code from template
-            auto_gen_wrapper_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_boost_serialization.cpp', binding
+            opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_boost_serialization.cpp', binding
 
             # register opaque type
             options.delete(:type)
             options.delete(:embedded_type)
             options[:needs_copy] = true
-            opaque_type(type, intermediate_type, options) {auto_gen_wrapper_code}
+            opaque_type(type, intermediate_type, options) {opaque_convertion_code}
 
         elsif options[:type] == :envire_serialization
 
@@ -134,13 +134,13 @@ class OroGen::Gen::RTT_CPP::Typekit
             end
 
             # create c++ convertion code from template
-            auto_gen_wrapper_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_envire_serialization.cpp', binding
+            opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_envire_serialization.cpp', binding
 
             # register opaque type
             options.delete(:type)
             options.delete(:embedded_type)
             options[:needs_copy] = true
-            opaque_type(type, intermediate_type, options) {auto_gen_wrapper_code}
+            opaque_type(type, intermediate_type, options) {opaque_convertion_code}
 
         else
             raise ArgumentError, "Cannot generate opaque, #{options[:type]} is an unknown serialization type!"
