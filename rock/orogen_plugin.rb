@@ -113,7 +113,7 @@ class OroGen::Gen::RTT_CPP::Typekit
                 # try to find embedded type
                 embedded_type = find_type options[:embedded_type]
             rescue Typelib::NotFound
-                RTT_CPP.info "Couldn't find typelib type for embedded type #{options[:embedded_type]}, trying to generate boost serialization based opaque type."
+                OroGen::Gen::RTT_CPP.info "Couldn't find typelib type for embedded type #{options[:embedded_type]}, trying to generate boost serialization based opaque type."
                 # generate boost serialization based opaque type if not available
                 opaque_autogen options[:embedded_type], :includes => options[:includes], :include => options[:include], :type => :boost_serialization
                 embedded_type = find_type options[:embedded_type]
