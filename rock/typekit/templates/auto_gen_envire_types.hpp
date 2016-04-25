@@ -13,8 +13,8 @@
    end
 %>
 
-#ifndef _OROGEN_WRAPPER_TYPES_<%= target_basename.upcase %>_HPP
-#define _OROGEN_WRAPPER_TYPES_<%= target_basename.upcase %>_HPP
+#ifndef _OROGEN_ENVIRE_WRAPPER_TYPES_<%= target_basename.upcase %>_HPP
+#define _OROGEN_ENVIRE_WRAPPER_TYPES_<%= target_basename.upcase %>_HPP
 
 #include <vector>
 #include <string>

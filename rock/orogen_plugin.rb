@@ -89,7 +89,7 @@ class OroGen::Gen::RTT_CPP::Typekit
                 t = find_type(intermediate_type)
             rescue Typelib::NotFound
                 auto_gen_wrapper_code = Generation.render_template orogen_install_path, 'templates', 'auto_gen_types.hpp', binding
-                path = Generation.save_automatic 'typekit', 'types', self.name, "wrappers", "#{Typelib.basename(intermediate_type)}.hpp", auto_gen_wrapper_code
+                path = Generation.save_automatic 'typekit', 'types', self.name, "wrappers", "boost_serialization", "#{Typelib.basename(intermediate_type)}.hpp", auto_gen_wrapper_code
                 self.load(path, false)
             end
 
@@ -129,7 +129,7 @@ class OroGen::Gen::RTT_CPP::Typekit
                 t = find_type(intermediate_type)
             rescue Typelib::NotFound
                 auto_gen_wrapper_code = Generation.render_template orogen_install_path, 'templates', 'auto_gen_envire_types.hpp', binding
-                path = Generation.save_automatic 'typekit', 'types', self.name, "wrappers", "#{Typelib.basename(intermediate_type)}.hpp", auto_gen_wrapper_code
+                path = Generation.save_automatic 'typekit', 'types', self.name, "wrappers", "envire_serialization", "#{Typelib.basename(intermediate_type)}.hpp", auto_gen_wrapper_code
                 self.load(path, false)
             end
 
