@@ -1,8 +1,5 @@
-PROJECT(envire_core)
+PROJECT(envire_orogen)
 cmake_minimum_required(VERSION 2.6)
-
-SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/.orogen/config")
-INCLUDE(envire_coreBase)
 
 install(FILES ${PROJECT_SOURCE_DIR}/rock/orogen_plugin.rb
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/orogen/plugins
@@ -15,8 +12,4 @@ install(FILES ${TYPEKIT_TEMPLATES}
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/orogen/templates/)
 
 install(FILES ${PROJECT_SOURCE_DIR}/rock/typekit/BinaryBufferHelper.hpp
-    DESTINATION include/orocos/envire_core/typekit)
-
-# FIND_PACKAGE(KDL)
-# FIND_PACKAGE(OCL)
-
+    DESTINATION include/orocos/envire_orogen/typekit)

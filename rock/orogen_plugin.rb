@@ -28,7 +28,7 @@ class OroGen::Gen::RTT_CPP::Typekit
         end
         options[:includes].push("boost/archive/polymorphic_binary_iarchive.hpp")
         options[:includes].push("boost/archive/polymorphic_binary_oarchive.hpp")
-        options[:includes].push("envire_core/typekit/BinaryBufferHelper.hpp")
+        options[:includes].push("envire_orogen/typekit/BinaryBufferHelper.hpp")
         options
     end
 

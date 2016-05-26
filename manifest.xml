@@ -1,5 +1,5 @@
 <package>
-  <description brief="Orocos components of the envire core">
+  <description brief="Envire related OroGen extensions">
   
   </description>
   <author>Envire Team/ric-team8@dfki.de</author>
@@ -8,5 +8,4 @@
   <url>http://rock-robotics.org/</url>
 
   <depend package="base/cmake" />
-  <depend package="envire/envire_core" />
 </package>
