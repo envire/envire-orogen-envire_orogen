@@ -6,7 +6,7 @@ void orogen_typekits::toIntermediate(<%= Typelib::Type.normalize_cxxname(interme
     intermediate.binary.reserve(1000000);
     BinaryOutputBuffer buffer(&intermediate.binary);
     std::ostream ostream(&buffer);
-    boost::archive::polymorphic_binary_oarchive oa(ostream);
+    boost::archive::binary_oarchive oa(ostream);
 
     oa << real_type;
 }
@@ -15,7 +15,7 @@ void orogen_typekits::fromIntermediate(<%= Typelib::Type.normalize_cxxname(type)
 {
     BinaryInputBuffer buffer(intermediate.binary);
     std::istream istream(&buffer);
-    boost::archive::polymorphic_binary_iarchive ia(istream);
+    boost::archive::binary_iarchive ia(istream);
 
     ia >> real_type;
 }
