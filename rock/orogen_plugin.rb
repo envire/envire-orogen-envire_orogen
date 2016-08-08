@@ -17,6 +17,13 @@ class OroGen::Gen::RTT_CPP::Typekit
         "/" + path.join("/") + "_w"
     end
 
+    # Returns the SpatioTemporal typename for a given embedded type.
+    #
+    # @param [string] embedded typename
+    def spatio_temporal_typename_for embedded_typename
+        "/envire/core/SpatioTemporal<#{embedded_typename}>"
+    end
+
     # Adds boost serialization related includes to a given hash of options.
     #
     # It will extend options[:includes], which can be an array or a string.
@@ -174,10 +181,10 @@ class OroGen::Gen::RTT_CPP::Typekit
 
         # check if embedded type is set
         if not embedded_typename.respond_to?(:to_str) or embedded_typename.empty?
-            raise ArgumentError, "Cannot generate envire::core::SpatioTemporal<T> type without a valid type name for the embedded type (E.g. '/pcl/PCLPointCloud2')"
+            raise ArgumentError, "Cannot generate #{spatio_temporal_typename_for "T"} type without a valid type name for the embedded type (E.g. '/pcl/PCLPointCloud2')"
         end
 
-        type_name = "/envire/core/SpatioTemporal<#{embedded_typename}>"
+        type_name = spatio_temporal_typename_for embedded_typename
 
         # check if type is already available
         begin
@@ -208,7 +215,7 @@ class OroGen::Gen::RTT_CPP::Typekit
             options[:include].push("envire_core/items/SpatioTemporal.hpp")
             embedded_type_intermediate = intermediate_type_for embedded_type
 
-            intermediate_type = "/envire/core/SpatioTemporal<#{embedded_type_intermediate.name}>"
+            intermediate_type = spatio_temporal_typename_for embedded_type_intermediate.name
 
             # create c++ convertion code from template
             opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_spatio_temporal.cpp', binding
