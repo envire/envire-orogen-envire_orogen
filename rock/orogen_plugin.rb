@@ -72,7 +72,8 @@ class OroGen::Gen::RTT_CPP::Typekit
             :include => [],
             :includes => [],
             :type => :boost_serialization,
-            :embedded_type => nil
+            :alias_name => "",
+            :embedded_type => ""
 
         # Check if type is already available
         begin
@@ -105,10 +106,7 @@ class OroGen::Gen::RTT_CPP::Typekit
             opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_boost_serialization.cpp', binding
 
             # register opaque type
-            options.delete(:type)
-            options.delete(:embedded_type)
-            options[:needs_copy] = true
-            opaque_type(type, intermediate_type, options) {opaque_convertion_code}
+            opaque_type(type, intermediate_type, :includes => options[:includes], :needs_copy => true) {opaque_convertion_code}
 
         elsif options[:type] == :envire_serialization
             OroGen::Gen::RTT_CPP.info "Note that using opaque_autogen with the :envire_serialization option is deprecated. Use spatio_temporal [embedded_type] instead."
@@ -146,15 +144,19 @@ class OroGen::Gen::RTT_CPP::Typekit
             opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_envire_serialization.cpp', binding
 
             # register opaque type
-            options.delete(:type)
-            options.delete(:embedded_type)
-            options[:needs_copy] = true
-            opaque_type(type, intermediate_type, options) {opaque_convertion_code}
-
+            opaque_type(type, intermediate_type, :includes => options[:includes], :needs_copy => true) {opaque_convertion_code}
         else
             raise ArgumentError, "Cannot generate opaque, #{options[:type]} is an unknown serialization type!"
         end
 
+        # add alias name for type
+        if not options[:alias_name].nil? and not options[:alias_name].empty?
+            options[:alias_name].gsub!('::', '/')
+            if options[:alias_name].chr != '/'
+                options[:alias_name].insert(0, '/')
+            end
+            registry.alias options[:alias_name], type
+        end
     end
 
     # Generates a SpatioTemporal<embedded_typename> type of the given embedded type.
@@ -220,6 +222,12 @@ class OroGen::Gen::RTT_CPP::Typekit
             # create c++ convertion code from template
             opaque_convertion_code = Generation.render_template orogen_install_path, 'templates', 'opaque_convertions_spatio_temporal.cpp', binding
             opaque_type(type_name, intermediate_type, options) {opaque_convertion_code}
+        end
+
+        # add aliases
+        aliases = registry.aliases_of embedded_type
+        aliases.each do |a|
+            registry.alias spatio_temporal_typename_for(a), type_name
         end
 
         # perform pending loads
