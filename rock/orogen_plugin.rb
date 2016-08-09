@@ -224,16 +224,17 @@ class OroGen::Gen::RTT_CPP::Typekit
             opaque_type(type_name, intermediate_type, options) {opaque_convertion_code}
         end
 
+        # perform pending loads
+        if has_pending_loads?
+            perform_pending_loads
+        end
+
         # add aliases
         aliases = registry.aliases_of embedded_type
         aliases.each do |a|
             registry.alias spatio_temporal_typename_for(a), type_name
         end
 
-        # perform pending loads
-        if has_pending_loads?
-            perform_pending_loads
-        end
 
         find_type(type_name)
     end
