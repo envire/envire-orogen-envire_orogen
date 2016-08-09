@@ -186,7 +186,14 @@ class OroGen::Gen::RTT_CPP::Typekit
             raise ArgumentError, "Cannot generate #{spatio_temporal_typename_for "T"} type without a valid type name for the embedded type (E.g. '/pcl/PCLPointCloud2')"
         end
 
-        type_name = spatio_temporal_typename_for embedded_typename
+        begin
+            # try to find the embedded type
+            embedded_type = find_type embedded_typename
+        rescue Typelib::NotFound
+            raise ArgumentError, "Couldn't find typelib type for embedded type #{embedded_typename}, please export the type first!"
+        end
+
+        type_name = spatio_temporal_typename_for embedded_type.name
 
         # check if type is already available
         begin
@@ -197,15 +204,8 @@ class OroGen::Gen::RTT_CPP::Typekit
         rescue Typelib::NotFound
         end
 
-        begin
-            # try to find the embedded type
-            embedded_type = find_type embedded_typename
-        rescue Typelib::NotFound
-            raise ArgumentError, "Couldn't find typelib type for embedded type #{embedded_typename}, please export the type first!"
-        end
-
         auto_gen_wrapper_code = Generation.render_template orogen_install_path, 'templates', 'auto_gen_spatio_temporal_types.hpp', binding
-        file_name = Typelib.basename(embedded_typename).gsub(/[<>\[\], \/]/, '_')
+        file_name = Typelib.basename(embedded_type.name).gsub(/[<>\[\], \/]/, '_')
         path = Generation.save_automatic 'typekit', 'types', self.name, "wrappers", "spatio_temporal", "#{file_name}.hpp", auto_gen_wrapper_code
         self.load(path)
 
