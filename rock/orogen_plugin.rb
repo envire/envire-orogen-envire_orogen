@@ -12,7 +12,7 @@ class OroGen::Gen::RTT_CPP::Typekit
         type = Typelib::Type.normalize_typename(type)
         path = Typelib.split_typename(type)
         path.map! do |p|
-            p.gsub(/[<>\[\], \/]/, '_')
+            p.gsub(/[<>\[\], \/]/, '_').gsub(/\*/, 'P')
         end
         "/" + path.join("/") + "_w"
     end

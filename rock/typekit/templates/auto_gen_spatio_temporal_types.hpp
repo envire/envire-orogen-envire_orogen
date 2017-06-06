@@ -1,6 +1,6 @@
 /* Generated from orogen/lib/orogen/templates/typekit/marshalling_types.hpp */
 
-<% embedded_typename_mangled = embedded_typename.gsub(/[<>\[\], \/]/, '_')
+<% embedded_typename_mangled = embedded_typename.gsub(/[<>\[\], \/]/, '_').gsub(/\*/, 'P')
    if embedded_type.opaque?
         embedded_type_intermediate = intermediate_type_for embedded_type
         embedded_type_cxx = Typelib::Type.normalize_cxxname(embedded_type_intermediate.name)
