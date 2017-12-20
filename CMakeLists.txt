@@ -10,6 +10,3 @@ file(GLOB TYPEKIT_TEMPLATES
     ${PROJECT_SOURCE_DIR}/rock/typekit/templates/*.cpp)
 install(FILES ${TYPEKIT_TEMPLATES}
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/orogen/templates/)
-
-install(FILES ${PROJECT_SOURCE_DIR}/rock/typekit/BinaryBufferHelper.hpp
-    DESTINATION include/orocos/envire_orogen/typekit)
